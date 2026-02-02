@@ -1,18 +1,19 @@
 /**
- * Mobile Touch Controls Hook
- * Handles touch-based controls for mobile devices
- * Top of screen = accelerate
- * Left side = turn left
- * Right side = turn right
+ * Mobile Touch Controls Hook - FULLY OPTIMIZED
+ * Touch top = accelerate (car starts & speeds up)
+ * Release touch = car slows down & stops
+ * Touch left = turn left
+ * Touch right = turn right
+ * Motion follows finger on screen
  */
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useGameStore from '../store/gameStore';
 
 const useMobileTouchControls = () => {
-  const { updateControls, pauseGame, resumeGame, gamePaused, gameStarted } = useGameStore();
-  const touchStartX = { current: 0 };
-  const touchStartY = { current: 0 };
-  const lastTouchX = { current: 0 };
+  const { updateControls, gameStarted, gamePaused } = useGameStore();
+  const activeTouch = useRef(false);
+  const currentX = useRef(0);
+  const currentY = useRef(0);
 
   useEffect(() => {
     // Check if mobile device
@@ -24,91 +25,87 @@ const useMobileTouchControls = () => {
 
     if (!isMobileDevice()) return;
 
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
     const handleTouchStart = (e) => {
-      if (!gameStarted) return;
-      if (gamePaused) return;
-
-      e.preventDefault();
+      if (!gameStarted || gamePaused) return;
+      
+      activeTouch.current = true;
       const touch = e.touches[0];
-      touchStartX.current = touch.clientX;
-      touchStartY.current = touch.clientY;
-      lastTouchX.current = touch.clientX;
+      currentX.current = touch.clientX;
+      currentY.current = touch.clientY;
 
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-
-      // Top half = accelerate/forward (always accelerate on touch start)
-      if (touch.clientY < screenHeight / 2) {
-        updateControls('forward', true);
-      }
-
-      // Left third = turn left
-      if (touch.clientX < screenWidth / 3) {
-        updateControls('left', true);
-      }
-
-      // Right third = turn right
-      if (touch.clientX > (screenWidth * 2) / 3) {
-        updateControls('right', true);
-      }
+      updateTouchControls(touch.clientX, touch.clientY, screenWidth, screenHeight);
     };
 
     const handleTouchMove = (e) => {
-      if (!gameStarted || gamePaused) return;
+      if (!gameStarted || gamePaused || !activeTouch.current) return;
+      
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        currentX.current = touch.clientX;
+        currentY.current = touch.clientY;
 
-      e.preventDefault();
-      const touch = e.touches[0];
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      const currentX = touch.clientX;
-      const currentY = touch.clientY;
-
-      // Always reset on move
-      updateControls('forward', false);
-      updateControls('left', false);
-      updateControls('right', false);
-
-      // Top 60% of screen = accelerate
-      if (currentY < screenHeight * 0.6) {
-        updateControls('forward', true);
-      }
-
-      // Left 35% = turn left
-      if (currentX < screenWidth * 0.35) {
-        updateControls('left', true);
-      }
-      // Right 35% = turn right
-      else if (currentX > screenWidth * 0.65) {
-        updateControls('right', true);
+        updateTouchControls(touch.clientX, touch.clientY, screenWidth, screenHeight);
       }
     };
 
     const handleTouchEnd = (e) => {
       if (!gameStarted || gamePaused) return;
+      
+      activeTouch.current = false;
 
-      e.preventDefault();
-
-      // Release all controls
+      // Release ALL controls immediately
       updateControls('forward', false);
       updateControls('left', false);
       updateControls('right', false);
-      updateControls('brake', true); // Apply brake when released
       
-      // Release brake after short delay
+      // Apply strong brake
+      updateControls('brake', true);
+      
+      // Release brake quickly
       setTimeout(() => {
-        updateControls('brake', false);
-      }, 150);
+        if (!activeTouch.current) {
+          updateControls('brake', false);
+        }
+      }, 100);
     };
 
-    // Add touch event listeners with passive: false to allow preventDefault
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+    const updateTouchControls = (x, y, width, height) => {
+      // Clear all previous controls
+      updateControls('forward', false);
+      updateControls('left', false);
+      updateControls('right', false);
+      updateControls('brake', false);
+
+      // TOP 50% OF SCREEN = ACCELERATE
+      if (y < height * 0.5) {
+        updateControls('forward', true);
+      } else {
+        // BOTTOM 50% = BRAKE
+        updateControls('brake', true);
+      }
+
+      // LEFT 40% = TURN LEFT
+      if (x < width * 0.4) {
+        updateControls('left', true);
+      }
+      // RIGHT 40% = TURN RIGHT
+      else if (x > width * 0.6) {
+        updateControls('right', true);
+      }
+    };
+
+    // Add listeners
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd, { passive: false });
 
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart, false);
-      window.removeEventListener('touchmove', handleTouchMove, false);
-      window.removeEventListener('touchend', handleTouchEnd, false);
+      document.removeEventListener('touchstart', handleTouchStart, false);
+      document.removeEventListener('touchmove', handleTouchMove, false);
+      document.removeEventListener('touchend', handleTouchEnd, false);
     };
   }, [gameStarted, gamePaused, updateControls]);
 };
