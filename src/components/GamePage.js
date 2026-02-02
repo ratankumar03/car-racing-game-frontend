@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import GameEngine from '../game/GameEngine';
+import useMobileTouchControls from '../hooks/useMobileTouchControls';
 import '../styles/GamePage.css';
 
 const GamePage = ({ player }) => {
@@ -8,6 +9,10 @@ const GamePage = ({ player }) => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const gameEngineRef = useRef(null);
+  
+  // Enable mobile touch controls
+  useMobileTouchControls();
+  
   const [gameState, setGameState] = useState({
     speed: 0,
     position: 1,
