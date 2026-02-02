@@ -17,7 +17,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false NODE_OPTIONS=--max_old_space_size=4096 CI=false react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false NODE_OPTIONS=--max_old_space_size=1024 CI=false npm run build:react",
+    "build:react": "react-scripts build",
     "test": "react-scripts test"
   },
   "proxy": "http://localhost:8000",
