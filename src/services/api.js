@@ -14,15 +14,15 @@ const api = axios.create({
 
 // Mock data for fallback
 const MOCK_LEVELS = [
-  { id: 1, name: 'Beginner Track', difficulty: 'easy', distance: 5000 },
-  { id: 2, name: 'City Road', difficulty: 'easy', distance: 6000 },
-  { id: 3, name: 'Mountain Pass', difficulty: 'medium', distance: 8000 },
-  { id: 4, name: 'Desert Highway', difficulty: 'medium', distance: 9000 },
-  { id: 5, name: 'Intermediate Track', difficulty: 'medium', distance: 8000 },
-  { id: 6, name: 'Advanced Track', difficulty: 'hard', distance: 12000 },
-  { id: 7, name: 'Forest Challenge', difficulty: 'hard', distance: 14000 },
-  { id: 8, name: 'Ultimate Race', difficulty: 'hard', distance: 15000 },
-  { id: 9, name: 'Extreme Challenge', difficulty: 'hard', distance: 20000 },
+  { id: 1, level_number: 1, name: 'Beginner Track', difficulty: 'easy', distance: 5000 },
+  { id: 2, level_number: 2, name: 'City Road', difficulty: 'easy', distance: 6000 },
+  { id: 3, level_number: 3, name: 'Mountain Pass', difficulty: 'medium', distance: 8000 },
+  { id: 4, level_number: 4, name: 'Desert Highway', difficulty: 'medium', distance: 9000 },
+  { id: 5, level_number: 5, name: 'Intermediate Track', difficulty: 'medium', distance: 8000 },
+  { id: 6, level_number: 6, name: 'Advanced Track', difficulty: 'hard', distance: 12000 },
+  { id: 7, level_number: 7, name: 'Forest Challenge', difficulty: 'hard', distance: 14000 },
+  { id: 8, level_number: 8, name: 'Ultimate Race', difficulty: 'hard', distance: 15000 },
+  { id: 9, level_number: 9, name: 'Extreme Challenge', difficulty: 'hard', distance: 20000 },
 ];
 
 const MOCK_CARS = [
