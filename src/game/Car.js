@@ -34,9 +34,9 @@ const Car = ({
     if (!internalRef.current || !isPlayer || gamePaused || gameOver || controlsLocked) return;
     
     const car = internalRef.current;
-    const maxSpeed = (carSpecs.speed / 100) * 40;
-    const accelRate = (carSpecs.acceleration / 100) * 30;
-    const turnSpeed = (carSpecs.handling / 100) * 12;
+    const maxSpeed = (carSpecs.speed / 100) * 60;
+    const accelRate = (carSpecs.acceleration / 100) * 45;
+    const turnSpeed = (carSpecs.handling / 100) * 14;
     
     // Handle nitro
     if (controls.nitro && nitroCount > 0 && !nitroActive.current) {

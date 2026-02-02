@@ -51,12 +51,12 @@ class GameEngine {
     };
 
     // Constants
-    this.MAX_SPEED = 300;
-    this.ACCELERATION_RATE = 50;
-    this.BRAKE_RATE = 80;
-    this.TURN_RATE = 2.0;
+    this.MAX_SPEED = 450;
+    this.ACCELERATION_RATE = 75;
+    this.BRAKE_RATE = 120;
+    this.TURN_RATE = 2.5;
     this.FRICTION = 0.98;
-    this.NITRO_BOOST = 2.0;
+    this.NITRO_BOOST = 2.5;
     this.NITRO_DRAIN_RATE = 20;
     this.NITRO_RECHARGE_RATE = 5;
 
