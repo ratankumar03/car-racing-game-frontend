@@ -176,12 +176,24 @@ const GameScene = () => {
       obstacles: ['trees', 'buildings']
     },
     track_length: 5000,
-    opponents: 5
+    opponents: 5,
+    level_number: currentLevel,
+    name: 'Track'
   };
+  
+  // Ensure environment object exists with defaults
+  if (!levelData.environment) {
+    levelData.environment = {
+      weather: 'sunny',
+      time_of_day: 'day',
+      obstacles: ['trees', 'buildings']
+    };
+  }
   
   // Sky color based on time of day
   const getSkyProps = () => {
-    switch (levelData.environment.time_of_day) {
+    const timeOfDay = levelData?.environment?.time_of_day || 'day';
+    switch (timeOfDay) {
       case 'day':
         return { sunPosition: [0, 1, 0], turbidity: 8, rayleigh: 2 };
       case 'afternoon':
@@ -302,7 +314,7 @@ const GameScene = () => {
         />
         <directionalLight
           position={[12, 18, 6]}
-          intensity={levelData.environment.time_of_day === 'night' ? 0.4 : 1.15}
+          intensity={(levelData?.environment?.time_of_day || 'day') === 'night' ? 0.4 : 1.15}
           color="#fff3e0"
           castShadow
           shadow-mapSize-width={2048}
@@ -323,9 +335,9 @@ const GameScene = () => {
         {/* Fog */}
         <fog 
           attach="fog" 
-          color={levelData.environment.weather === 'foggy' ? '#cfd8dc' : '#9ec9ff'} 
+          color={(levelData?.environment?.weather || 'sunny') === 'foggy' ? '#cfd8dc' : '#9ec9ff'} 
           near={10} 
-          far={levelData.environment.weather === 'foggy' ? 50 : 220} 
+          far={(levelData?.environment?.weather || 'sunny') === 'foggy' ? 50 : 220} 
         />
         
         {/* Simple road (always visible) */}
