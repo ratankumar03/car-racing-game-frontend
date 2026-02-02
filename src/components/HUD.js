@@ -1,11 +1,40 @@
 /**
  * HUD (Heads-Up Display) Component
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useGameStore from '../store/gameStore';
 import './HUD.css';
 
 const HUD = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = /Android|webOS|iPhone|iPad|iPok|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      const isSmallScreen = window.innerWidth <= 768;
+      const isTouchDevice = () => {
+        return (
+          (typeof window !== 'undefined' &&
+            ('ontouchstart' in window ||
+              (typeof document !== 'undefined' &&
+                'ontouchstart' in document.documentElement) ||
+              navigator.maxTouchPoints > 0)) ||
+          false
+        );
+      };
+      
+      const isMobileDevice = userAgent || (isSmallScreen && isTouchDevice());
+      setIsMobile(isMobileDevice);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
   const {
     gameStarted,
     gamePaused,
@@ -203,11 +232,14 @@ const HUD = () => {
           </button>
         </div>
         
-        <div className="controls-guide">
-          <p><strong>Controls:</strong></p>
-          <p>↑ / W - Accelerate | ↓ / S - Brake | ← / A - Left | → / D - Right</p>
-          <p><strong>SPACE</strong> - Nitro Boost | <strong>ESC</strong> - Pause</p>
-        </div>
+        {/* Controls Guide - Only show on Desktop */}
+        {!isMobile && (
+          <div className="controls-guide">
+            <p><strong>Controls:</strong></p>
+            <p>↑ / W - Accelerate | ↓ / S - Brake | ← / A - Left | → / D - Right</p>
+            <p><strong>SPACE</strong> - Nitro Boost | <strong>ESC</strong> - Pause</p>
+          </div>
+        )}
       </div>}
 
       {gamePaused && (

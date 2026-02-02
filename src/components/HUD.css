@@ -270,6 +270,21 @@
   margin: 5px 0;
 }
 
+/* Hide controls on mobile */
+@media (max-width: 768px) {
+  .controls-guide {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .controls-guide {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
 /* Pause Overlay */
 .pause-overlay {
   position: fixed;
