@@ -36,7 +36,7 @@ const Car = ({
     const car = internalRef.current;
     const maxSpeed = (carSpecs.speed / 100) * 60;
     const accelRate = (carSpecs.acceleration / 100) * 45;
-    const turnSpeed = (carSpecs.handling / 100) * 14;
+    const turnSpeed = (carSpecs.handling / 100) * 20;
     
     // Handle nitro
     if (controls.nitro && nitroCount > 0 && !nitroActive.current) {
