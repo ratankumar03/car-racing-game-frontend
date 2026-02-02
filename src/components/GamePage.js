@@ -9,6 +9,18 @@ const GamePage = ({ player }) => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const gameEngineRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      setIsMobile(isMobileDevice);
+    };
+    checkMobile();
+  }, []);
   
   // Enable mobile touch controls
   useMobileTouchControls();
@@ -197,14 +209,16 @@ const GamePage = ({ player }) => {
         </div>
       )}
 
-      {/* Controls Help */}
-      <div className="controls-help">
-        <div className="control">↑ Accelerate</div>
-        <div className="control">↓ Brake</div>
-        <div className="control">← → Steer</div>
-        <div className="control">Space Nitro</div>
-        <div className="control">Esc Pause</div>
-      </div>
+      {/* Controls Help - Only show on Desktop */}
+      {!isMobile && (
+        <div className="controls-help">
+          <div className="control">↑ Accelerate</div>
+          <div className="control">↓ Brake</div>
+          <div className="control">← → Steer</div>
+          <div className="control">Space Nitro</div>
+          <div className="control">Esc Pause</div>
+        </div>
+      )}
     </div>
   );
 };

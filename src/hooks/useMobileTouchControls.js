@@ -1,6 +1,9 @@
 /**
  * Mobile Touch Controls Hook
  * Handles touch-based controls for mobile devices
+ * Top of screen = accelerate
+ * Left side = turn left
+ * Right side = turn right
  */
 import { useEffect } from 'react';
 import useGameStore from '../store/gameStore';
@@ -9,6 +12,7 @@ const useMobileTouchControls = () => {
   const { updateControls, pauseGame, resumeGame, gamePaused, gameStarted } = useGameStore();
   const touchStartX = { current: 0 };
   const touchStartY = { current: 0 };
+  const lastTouchX = { current: 0 };
 
   useEffect(() => {
     // Check if mobile device
@@ -24,24 +28,26 @@ const useMobileTouchControls = () => {
       if (!gameStarted) return;
       if (gamePaused) return;
 
+      e.preventDefault();
       const touch = e.touches[0];
       touchStartX.current = touch.clientX;
       touchStartY.current = touch.clientY;
+      lastTouchX.current = touch.clientX;
 
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
 
-      // Top half = accelerate/forward
+      // Top half = accelerate/forward (always accelerate on touch start)
       if (touch.clientY < screenHeight / 2) {
         updateControls('forward', true);
       }
 
-      // Left side = turn left
+      // Left third = turn left
       if (touch.clientX < screenWidth / 3) {
         updateControls('left', true);
       }
 
-      // Right side = turn right
+      // Right third = turn right
       if (touch.clientX > (screenWidth * 2) / 3) {
         updateControls('right', true);
       }
@@ -50,33 +56,37 @@ const useMobileTouchControls = () => {
     const handleTouchMove = (e) => {
       if (!gameStarted || gamePaused) return;
 
+      e.preventDefault();
       const touch = e.touches[0];
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
+      const currentX = touch.clientX;
+      const currentY = touch.clientY;
 
-      // Reset all controls
+      // Always reset on move
       updateControls('forward', false);
       updateControls('left', false);
       updateControls('right', false);
 
-      // Top half = accelerate
-      if (touch.clientY < screenHeight / 2) {
+      // Top 60% of screen = accelerate
+      if (currentY < screenHeight * 0.6) {
         updateControls('forward', true);
       }
 
-      // Left side = turn left
-      if (touch.clientX < screenWidth / 3) {
+      // Left 35% = turn left
+      if (currentX < screenWidth * 0.35) {
         updateControls('left', true);
       }
-
-      // Right side = turn right
-      if (touch.clientX > (screenWidth * 2) / 3) {
+      // Right 35% = turn right
+      else if (currentX > screenWidth * 0.65) {
         updateControls('right', true);
       }
     };
 
     const handleTouchEnd = (e) => {
       if (!gameStarted || gamePaused) return;
+
+      e.preventDefault();
 
       // Release all controls
       updateControls('forward', false);
@@ -87,13 +97,13 @@ const useMobileTouchControls = () => {
       // Release brake after short delay
       setTimeout(() => {
         updateControls('brake', false);
-      }, 100);
+      }, 150);
     };
 
-    // Add touch event listeners
-    window.addEventListener('touchstart', handleTouchStart, false);
-    window.addEventListener('touchmove', handleTouchMove, false);
-    window.addEventListener('touchend', handleTouchEnd, false);
+    // Add touch event listeners with passive: false to allow preventDefault
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart, false);
