@@ -20,8 +20,8 @@ const MOCK_LEVELS = [
 ];
 
 const MOCK_CARS = [
-  { id: '1', name: 'Sports Car', speed: 220, acceleration: 9, handling: 10, owner_id: 'player1' },
-  { id: '2', name: 'Racing Car', speed: 270, acceleration: 10, handling: 11, owner_id: 'player1' },
+  { id: '1', name: 'Sports Car', speed: 220, acceleration: 9, handling: 12, owner_id: 'player1' },
+  { id: '2', name: 'Racing Car', speed: 270, acceleration: 10, handling: 13, owner_id: 'player1' },
 ];
 
 // Player API

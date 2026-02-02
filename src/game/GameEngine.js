@@ -54,7 +54,7 @@ class GameEngine {
     this.MAX_SPEED = 450;
     this.ACCELERATION_RATE = 75;
     this.BRAKE_RATE = 120;
-    this.TURN_RATE = 3.5;
+    this.TURN_RATE = 5.0;
     this.FRICTION = 0.98;
     this.NITRO_BOOST = 2.5;
     this.NITRO_DRAIN_RATE = 20;
