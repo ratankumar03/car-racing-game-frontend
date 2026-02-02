@@ -1,0 +1,15 @@
+services:
+  - type: static_site
+    name: car-racing-game-frontend
+    env: node
+    buildCommand: npm install && GENERATE_SOURCEMAP=false NODE_OPTIONS=--max_old_space_size=3072 npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://car-racing-game-backend.onrender.com/api
+      - key: GENERATE_SOURCEMAP
+        value: "false"
+      - key: CI
+        value: "false"
+      - key: NODE_ENV
+        value: production
