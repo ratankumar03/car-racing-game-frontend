@@ -16,7 +16,7 @@
     "framer-motion": "^10.16.16"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false NODE_OPTIONS=--max_old_space_size=1024 CI=false npm run build:react",
     "build:react": "react-scripts build",
     "test": "react-scripts test"
