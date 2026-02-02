@@ -1,0 +1,327 @@
+/* Menu Styles */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.menu-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 760px;
+  width: 90%;
+  backdrop-filter: blur(10px);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  transform-style: preserve-3d;
+}
+
+.menu-container-animated {
+  animation: cardPopIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.menu-container-animated .menu-poster {
+  animation: posterFloat 3.2s ease-in-out infinite;
+}
+
+.menu-container-animated .game-title {
+  animation: titleGlow 1.2s ease-out both;
+}
+
+.menu-container-animated .menu-buttons .btn {
+  animation: buttonRise 0.6s ease-out both;
+}
+
+.menu-container-animated .menu-buttons .btn:nth-child(1) { animation-delay: 0.1s; }
+.menu-container-animated .menu-buttons .btn:nth-child(2) { animation-delay: 0.2s; }
+.menu-container-animated .menu-buttons .btn:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cardPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@keyframes posterFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes titleGlow {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes buttonRise {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.menu-poster {
+  width: 100%;
+  height: 140px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.menu-poster svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.game-title {
+  text-align: center;
+  font-size: 2.4em;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.creator-credit {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.social-links a svg {
+  width: 20px;
+  height: 20px;
+}
+
+.player-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.player-form h2 {
+  text-align: center;
+  color: #333;
+}
+
+.input-field {
+  padding: 15px;
+  font-size: 1.1em;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.select-field {
+  padding: 15px;
+  font-size: 1.1em;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #11998e, #38ef7d);
+  color: white;
+}
+
+.btn-secondary {
+  background: linear-gradient(45deg, #a8edea, #fed6e3);
+  color: #333;
+}
+
+.btn-danger {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+  color: white;
+}
+
+.error-message {
+  color: #ff4444;
+  text-align: center;
+  font-weight: bold;
+}
+
+.player-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-info h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.menu-left,
+.menu-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 20px;
+  width: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 10px;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.95em;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+
+.level-select {
+  margin: 20px 0;
+}
+
+.level-select h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.car-info {
+  margin: 20px 0;
+}
+
+.car-info h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.car-preview {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.menu-buttons .btn {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 20px;
+  }
+  
+  .game-title {
+    font-size: 2em;
+  }
+  
+  .stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}

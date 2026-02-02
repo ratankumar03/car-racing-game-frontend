@@ -1,0 +1,27 @@
+/* App Styles */
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+}
+
+.garage-page,
+.leaderboard-page {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  overflow: auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
