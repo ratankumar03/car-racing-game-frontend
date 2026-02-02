@@ -11,15 +11,37 @@ const GamePage = ({ player }) => {
   const gameEngineRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
   
-  // Detect mobile device
+  // Detect mobile device - more accurate detection
   useEffect(() => {
     const checkMobile = () => {
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      // Check user agent
+      const userAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       );
+      // Check viewport width
+      const isSmallScreen = window.innerWidth <= 768;
+      // Check touch capability
+      const isTouchDevice = () => {
+        return (
+          (typeof window !== 'undefined' &&
+            ('ontouchstart' in window ||
+              (typeof document !== 'undefined' &&
+                'ontouchstart' in document.documentElement) ||
+              navigator.maxTouchPoints > 0)) ||
+          false
+        );
+      };
+      
+      const isMobileDevice = userAgent || (isSmallScreen && isTouchDevice());
       setIsMobile(isMobileDevice);
     };
+    
     checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
   
   // Enable mobile touch controls

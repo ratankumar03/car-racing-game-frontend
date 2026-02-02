@@ -275,6 +275,21 @@
   z-index: 10;
 }
 
+/* Hide controls on mobile devices */
+@media (max-width: 768px) {
+  .controls-help {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .controls-help {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
 .control {
   padding: 10px 15px;
   background: rgba(0, 0, 0, 0.7);
