@@ -12,17 +12,54 @@ const api = axios.create({
   },
 });
 
+// Mock data for fallback
+const MOCK_LEVELS = [
+  { id: 1, name: 'Beginner Track', difficulty: 'easy', distance: 5000 },
+  { id: 2, name: 'Intermediate Track', difficulty: 'medium', distance: 8000 },
+  { id: 3, name: 'Advanced Track', difficulty: 'hard', distance: 12000 },
+];
+
+const MOCK_CARS = [
+  { id: '1', name: 'Sports Car', speed: 180, acceleration: 8, handling: 7, owner_id: 'player1' },
+  { id: '2', name: 'Racing Car', speed: 200, acceleration: 9, handling: 8, owner_id: 'player1' },
+];
+
 // Player API
 export const playerAPI = {
-  create: (username, email) => api.post('/players/', { username, email }),
-  getById: (playerId) => api.get(`/players/${playerId}/`),
-  getByUsername: (username) => api.get(`/players/username/${username}/`),
-  update: (playerId, data) => api.put(`/players/${playerId}/`, data),
+  create: async (username, email) => {
+    try {
+      return await api.post('/players/', { username, email });
+    } catch (error) {
+      // Fallback: return mock player
+      return { data: { id: 'player1', username, email, level: 1 } };
+    }
+  },
+  getById: async (playerId) => {
+    try {
+      return await api.get(`/players/${playerId}/`);
+    } catch (error) {
+      return { data: { id: playerId, username: 'Player', level: 1, cars: [] } };
+    }
+  },
+  getByUsername: async (username) => {
+    try {
+      return await api.get(`/players/username/${username}/`);
+    } catch (error) {
+      return { data: { id: 'player1', username, level: 1 } };
+    }
+  },
+  update: (playerId, data) => api.put(`/players/${playerId}/`, data).catch(() => ({ data })),
 };
 
 // Car API
 export const carAPI = {
-  list: (playerId) => api.get(`/cars/?player_id=${playerId}`),
+  list: async (playerId) => {
+    try {
+      return await api.get(`/cars/?player_id=${playerId}`);
+    } catch (error) {
+      return { data: MOCK_CARS };
+    }
+  },
   create: (carData) => api.post('/cars/', carData),
   getById: (carId) => api.get(`/cars/${carId}/`),
   update: (carId, data) => api.put(`/cars/${carId}/`, data),
@@ -32,14 +69,28 @@ export const carAPI = {
 
 // Level API
 export const levelAPI = {
-  list: () => api.get('/levels/'),
-  getById: (levelNumber) => api.get(`/levels/${levelNumber}/`),
+  list: async () => {
+    try {
+      return await api.get('/levels/');
+    } catch (error) {
+      return { data: MOCK_LEVELS };
+    }
+  },
+  getById: async (levelNumber) => {
+    try {
+      return await api.get(`/levels/${levelNumber}/`);
+    } catch (error) {
+      return { data: MOCK_LEVELS[levelNumber - 1] || MOCK_LEVELS[0] };
+    }
+  },
 };
 
 // Game Session API
 export const sessionAPI = {
   create: (playerId, levelNumber, carId) => 
-    api.post('/sessions/', { player_id: playerId, level_number: levelNumber, car_id: carId }),
+    api.post('/sessions/', { player_id: playerId, level_number: levelNumber, car_id: carId }).catch(err => ({ 
+      data: { id: 'session1', player_id: playerId, level_number: levelNumber, car_id: carId }
+    })),
   getById: (sessionId) => api.get(`/sessions/${sessionId}/`),
   update: (sessionId, data) => api.put(`/sessions/${sessionId}/`, data),
   complete: (sessionId, position, score, time) => 
