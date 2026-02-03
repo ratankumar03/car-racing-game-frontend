@@ -432,6 +432,8 @@
   z-index: 400;
   animation: fadeIn 0.3s;
   backdrop-filter: blur(8px);
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .crash-popup {
@@ -444,6 +446,7 @@
   animation: crashShake 0.5s, slideUp 0.5s;
   max-width: 450px;
   width: 90%;
+  pointer-events: auto;
 }
 
 @keyframes crashShake {
@@ -563,6 +566,8 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .crash-btn-try-again:hover {
@@ -607,6 +612,10 @@
   .hud-bottom {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .hud-bottom {
+    bottom: 60px;
   }
   
   .hud-value {
