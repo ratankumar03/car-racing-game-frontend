@@ -615,7 +615,8 @@
   }
 
   .hud-bottom {
-    bottom: 30px;
+    bottom: 20px;
+    padding-bottom: 10px;
   }
   
   .hud-value {
