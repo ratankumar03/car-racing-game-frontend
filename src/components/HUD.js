@@ -118,6 +118,12 @@ const HUD = () => {
       }, 300);
     };
 
+    const handleTryAgainTouch = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleTryAgain();
+    };
+
     return (
       <div className="crash-overlay">
         <div className="crash-popup">
@@ -139,7 +145,11 @@ const HUD = () => {
             <p className="countdown-label">Returning to menu...</p>
           </div>
 
-          <button onClick={handleTryAgain} className="crash-btn-try-again">
+          <button
+            onClick={handleTryAgain}
+            onTouchStart={handleTryAgainTouch}
+            className="crash-btn-try-again"
+          >
             🔄 Try Again
           </button>
         </div>
