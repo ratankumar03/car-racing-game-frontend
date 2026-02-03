@@ -10,6 +10,7 @@ import Track from './Track';
 import OpponentCars from './OpponentCars';
 import './GameScene.css';
 import useGameStore from '../store/gameStore';
+import useMobileTouchControls from '../hooks/useMobileTouchControls';
 
 const CameraController = ({ playerRef }) => {
   const cameraRef = useRef();
@@ -162,6 +163,8 @@ const GameScene = () => {
     setShowCrashPopup,
     setCrashCountdown,
   } = useGameStore();
+
+  useMobileTouchControls();
   const playerRef = useRef();
   const opponentRefs = useRef([]);
   const [countdown, setCountdown] = useState(null);
